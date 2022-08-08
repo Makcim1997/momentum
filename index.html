@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="owfont-regular.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <title>Momentnum</title>
+</head>
+<body>
+    <div class="header">
+        <div class="player">
+            <div class="player-buttons">
+                <div class="play-prev player-button"><img src="./assets/audio/svg/forward-prev.svg" class="prev button" alt="btn-prev"></div>
+                <div class="play player-button"><img src="./assets/audio/svg/play.svg" class="play-icon button img__src" alt="btn-play"></div>
+                <div class="play-next player-button"><img src="./assets/audio/svg/forward-next.svg" class="next button" alt="btn-next"></div>
+            </div> 
+
+            <d  iv class="song"></d>
+            <audio class="audio"></audio>
+            <div class="progress__container">
+                <div class="progress"></div>
+            </div>
+        </div>
+
+        <div class="translate">
+            <span class="en language active">en</span>
+            <span class="space">|</span>
+            <span class="ru language">ru</span>
+        </div>
+
+        <div class="weather">
+            <input type="text" placeholder="[Enter city]" class="city">
+            <i class="weather-icon"></i>
+            <div class="weather-error"></div>
+
+            <div class="description__container">
+                <span class="temperature"></span>
+                <span class="cloudiness"></span>
+            </div>
+            <div class="wind"></div>
+            <div class="humidity"></div>
+        </div>
+
+        </div>
+    </div>
+
+    <main class="main">
+        <div class="box">
+            <img src="./assets/svg/arrow-prev.svg" alt="arrow-svg" class="arrow-prev arrow">
+        </div>
+
+        <div class="container-date">
+            <time id="time" class="time"></time>
+            <date id="date" class="date"></date>
+    
+            <div class="greeting__container">
+                <div id="greeting" class="greeting"></div>
+                <input type="text" placeholder="[Enter name]" class="name">
+            </div>
+        </div>
+
+        <div class="box">
+            <img src="./assets/svg/arrow-next.svg" alt="arrow-svg" class="arrow-next arrow">
+        </div>
+    </main>
+
+    <footer class="footer">
+
+        <div class="box">
+            <img src="./assets/svg/reload.svg" class="change-quote" alt="button">
+        </div>
+
+        <div class="container-quotes">
+            <div class="widget">
+                <div class="quote"></div>
+                <div class="author"></div>
+            </div>
+        </div>
+
+    </footer>
+    
+    <script src="./script.js"></script>
+</body>
+</html>
