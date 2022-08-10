@@ -93,8 +93,9 @@ input{
 .main{
     padding: 20px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
 }
 
 .container-date{
@@ -188,6 +189,16 @@ input{
     opacity: .5;
     height: 32px;
     transition: .5s;
+    position: absolute;
+    top: 130px;
+}
+
+.arrow:nth-child(1){
+    left: 25px
+}
+
+.arrow:nth-child(2) {
+    right: 15px;
 }
 
 .arrow:hover{
@@ -228,5 +239,87 @@ input{
 .author{
     text-align: center;
     margin-top: 10px;
+}
+
+
+/*=====================*/
+
+@media (max-width: 708px) {
+    .time{
+        width: 320px;
+        font-size: 72px;
+    }
+
+    .greeting__container{
+        font-size: 32px;
+    }
+
+    .greeting{
+        padding: 5px;
+    }
+
+    .name{
+        font-size: 32px;
+        padding: 5px;
+    }
+
+    .box:nth-child(3) {
+        text-align: right;
+    }
+}
+
+@media (max-width: 575px) {
+    .main{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .greeting__container{
+        font-size: 20px;
+    }
+
+    .name{
+        font-size: 20px;
+        max-width: 130px;
+    }
+}
+
+@media (max-width: 420px) {
+    .header{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main{
+        margin-top: 20px;
+    }
+
+    .translate{
+        margin: 20px 0;
+    }
+
+    .time{
+        width: 220px;
+        font-size: 50px;
+        margin-top: 20px;
+    }
+
+    .arrow{
+        top: 0;
+    }
+
+    .arrow:nth-child(1) {
+        left: 160px;
+    }
+
+    .arrow:nth-child(2) {
+        right: 160px;
+    }
+
+    .footer{
+        height: 200px;
+    }
 }
 
