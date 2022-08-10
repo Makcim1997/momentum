@@ -12,6 +12,13 @@ const player = document.querySelector('.player'),
 
 const songs = ['Золотой Мальчик', 'Секрет', 'Солнце Золотое', 'Ууу'];
 
+const nameOfTheDays = {
+    night: {
+        ru: 'ночь',
+        en: 'night',
+    }
+}
+
 let songIndex = 0;
 // Init
 
@@ -106,73 +113,48 @@ audio.addEventListener('ended', nextSong)
 
 /*===== Date =====*/
 
-let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'november', 'December'];
-
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'november', 'December'];
 
 const body = document.querySelector('body');
 const main = document.querySelector('main');
 let nameOfTheDay = ''; 
 
-window.onload = function() {
-    let amountImg = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    let room = amountImg[Math.floor(Math.random() * 20)]
-    if (room < 10) {
-        room = '0' + room
-    };
+/*===== Date =====*/
 
-    main.addEventListener('click', (event) => {
-        if (event.target.classList.contains('arrow-prev')) {
-            --room
-            if (room < 10) {
-                room = '0' + room
-            }
-            if (room < 1) {
-                room = 20
-            }
-        } else if (event.target.classList.contains('arrow-next')) {
-            ++room
+function timer() {
 
-            if (room < 10) {
-                room = '0' + room
-            }
+    if (imageNumber < 10) {
+        imageNumber = '0' + imageNumber;
+       }
 
-            if (room > 20) {
-                room = '0' + 1
-            }
-        }
-    })
-
-    window.setInterval(function() {
-        
+    setInterval(function() {        
         const greeting = document.getElementById('greeting');
         const dateClass = document.getElementById('date');
 
-        let date = new Date();
+        const date = new Date();
 
         let hours = date.getHours();
         let minutes = date.getMinutes();
         let seconds = date.getSeconds();
-        
-
 
         if (hours < 10) {hours = `0${hours}`};
         if (minutes < 10) {minutes = `0${minutes}`};
         if (seconds < 10) {seconds = `0${seconds}`};
  
-        let clock = `${hours} : ${minutes} : ${seconds}`;
+        const clock = `${hours} : ${minutes} : ${seconds}`;
         document.getElementById('time').innerHTML = clock;
 
-        if (hours >= 00 && hours <= 06) {
+        if (hours >= 00 && hours < 06) {
             if (sum === 0) { 
                 greeting.textContent = 'Good night'
             } else {
                 greeting.textContent = 'спокойной ночи'
             }
 
-            nameOfTheDay = 'night';
+            nameOfTheDay = nameOfTheDays.night.en;
          
-        } else if (hours >= 06 && hours <= 12) {
+        } else if (hours >= 06 && hours < 12) {
             if (sum === 0) {
                 greeting.textContent = 'Good morning'
             } else {
@@ -181,8 +163,8 @@ window.onload = function() {
 
             nameOfTheDay = 'morning';
        
-        } else if (hours >= 06 && hours <= 18) {
-            if (sun === 0) {
+        } else if (hours >= 12 && hours < 18) {
+            if (sum === 0) {
                 greeting.textContent = 'Good afternoon'
             } else {
                 greeting.textContent = 'Доброго дня'
@@ -199,56 +181,53 @@ window.onload = function() {
             nameOfTheDay = 'evening';
         }
 
-        function nameDay(date) {
+        dateClass.innerHTML = `${nameDay(date)}, ${nameMonth(date)} ${date.getDate()}`
 
-            return days[date.getDate()]
-        }
-
-
-        function nameMonth(date) {
-            return months[date.getMonth()]
-        }
-
-        dateClass.innerHTML = `${nameDay(date)}, ${nameMonth(date)} ${date.getDay()}`
-        body.style.backgroundImage = `url(https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${nameOfTheDay}/${room}.jpg)`;
+        body.style.backgroundImage = `url(https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${nameOfTheDay}/${imageNumber}.jpg)`;
 
     }, 1000);
 }
 
 
-/*===== Date =====*/
+
+function nameDay(date) {
+    return days[date.getDay()]
+}
+
+
+function nameMonth(date) {
+    return months[date.getMonth()]
+}
 
 /*===== Weather =====*/
 
-const name = document.querySelector('.name'),
-      temperature = document.querySelector('.temperature'),
-      cloudiness = document.querySelector('.cloudiness'),
-      wind = document.querySelector('.wind'),
-      humidity = document.querySelector('.humidity'),
-      weatherIcon = document.querySelector('.weather-icon'),
-      weatherError = document.querySelector('.weather-error'),
-      titleCity = document.querySelector('.city');
-
-
+const userNameInput = document.querySelector('.name');
+const temperature = document.querySelector('.temperature');
+const cloudiness = document.querySelector('.cloudiness');
+const wind = document.querySelector('.wind');
+const humidity = document.querySelector('.humidity');
+const weatherIcon = document.querySelector('.weather-icon');
+const weatherError = document.querySelector('.weather-error');
+const titleCityInput = document.querySelector('.city');
 
 async function getWeather() {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${titleCity.value}&appid=55a124c8d199110cb7dc23f6ea5106f0`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${titleCityInput.value}&lang=en&appid=55a124c8d199110cb7dc23f6ea5106f0`;
     const res = await fetch(url);
     const data = await res.json();
-          temperature.innerHTML = Math.round(data.main.temp - 273) + '&deg' + 'C';
-          cloudiness.innerHTML = data.weather[0].description;
-          wind.innerHTML = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
-          humidity.innerHTML = `Humidity: ${data.main.humidity}%`;
-          weatherIcon.classList.add(`owf-${data.weather[0].id}`, 'owf');
+    temperature.innerHTML = Math.round(data.main.temp - 273) + '&deg' + 'C';
+    cloudiness.innerHTML = data.weather[0].description;
+    wind.innerHTML = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
+    humidity.innerHTML = `Humidity: ${data.main.humidity}%`;
+    weatherIcon.classList.add(`owf-${data.weather[0].id}`, 'owf');
   }
 
-  
-getWeather()
 
-titleCity.onchange = function() {
-    getWeather()
+function onChangeCity(event) {
+    localStorage.setItem('city', event.target.value);
 
-    if (titleCity.value === '') {
+    getWeather();
+
+    if (titleCityInput.value === '') {
         weatherError.innerHTML = 'Error! Nothing to geocode for!'
         temperature.innerHTML = ''
         cloudiness.innerHTML = ''
@@ -262,31 +241,26 @@ titleCity.onchange = function() {
     
 }
 
-function setLocalStorage() {
-    localStorage.setItem('name', name.value);
-    localStorage.setItem('city', titleCity.value);
+function onChangeName(event) {
+    localStorage.setItem('name', event.target.value);
 }
 
-window.addEventListener('beforeunload', setLocalStorage);
-
-function getLocalStorage() {
+function getStoragedState() {
     if (localStorage.getItem('name')) {
-        name.value = localStorage.getItem('name')
+        userNameInput.value = localStorage.getItem('name')
     }
 
-    if (titleCity.value === '') {
-        titleCity.value = 'Minsk'
+    if (titleCityInput.value === '') {
+        titleCityInput.value = 'Minsk'
         getWeather()
 
     }
 
     if (localStorage.getItem('city')) {
-        titleCity.value = localStorage.getItem('city')
+        titleCityInput.value = localStorage.getItem('city')
         getWeather()
     } 
 }
-
-window.addEventListener('load', getLocalStorage)
 
 
 /*===== Weather =====*/
@@ -318,9 +292,7 @@ async function getQuotesEn() {
     const res = await fetch(quotesEn);
     const data = await res.json();
 
-    let arrNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    let number = 0;
-    number += arrNumber[Math.floor(Math.random() * 10)]
+    let number = Math.floor(Math.random() * 10)
 
     quote.textContent = data[number].text
     author.textContent = data[number].author
@@ -332,9 +304,7 @@ async function getQuotesRu() {
     const res = await fetch(quotesRu);
     const translateRu = await res.json();
 
-    let arrNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    let number = 0;
-    number += arrNumber[Math.floor(Math.random() * 10)]
+    let number = Math.floor(Math.random() * 10)
 
     quote.textContent = translateRu[number].text
     author.textContent = translateRu[number].author
@@ -363,6 +333,46 @@ translate.addEventListener('click', (e) => {
         getQuotesRu()   
     }  
 })
+
+const imageArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+let imageNumber;
+    imageNumber = imageArray[Math.floor(Math.random() * 20)];
+
+main.addEventListener('click', (event) => {
+    if (event.target.classList.contains('arrow-prev')) {
+        --imageNumber
+        if (imageNumber < 10) {  
+            imageNumber = '0' + imageNumber
+        }
+        
+        if (imageNumber < 1) {
+            imageNumber = 20
+        }
+
+    } else if (event.target.classList.contains('arrow-next')) {
+        ++imageNumber
+
+        if (imageNumber < 10) {
+            imageNumber = '0' + imageNumber
+        }
+
+        if (imageNumber > 20) {
+            imageNumber = '0' + 1
+        }
+    }
+})
+function init() {    
+    getStoragedState();
+
+    titleCityInput.addEventListener('change', onChangeCity);
+    userNameInput.addEventListener('change', onChangeName);
+
+    timer();
+    getWeather();
+}
+
+
+window.onload = init();
 
 
 
